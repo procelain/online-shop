@@ -12,8 +12,9 @@ import App from './App'
 import store from './store'
 import router from './router'
 
-import '@/icons' // icon
-import '@/permission' // permission control
+import '@/permission'
+// eslint-disable-next-line no-unused-vars
+import service from '@/utils/request' // permission control
 
 /**
  * If you don't want to use mock-server
@@ -41,3 +42,4 @@ new Vue({
   store,
   render: h => h(App)
 })
+

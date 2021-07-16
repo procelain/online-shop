@@ -4,7 +4,8 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 /* Layout */
-import Layout from '@/layout'
+
+import app from '../views/app/app'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -30,144 +31,176 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
-  {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
-
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
-    }]
-  },
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+export const shopRoutes = [{
+  path: '/',
+  component: app,
+  children: [
+    {
+      path: 'login',
+      name: 'login',
+      components: {
+        content: () => import('@/views/login/login')
       },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+      meta: {
+        title: '登录',
+        need_log: false
       }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
     },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+    {
+      path: 'register',
+      name: 'register',
+      components: {
+        head: () => import('@/views/loginHead/loginHead'),
+        content: () => import('@/views/register/register'),
+        footer: () => import('@/views/footer/footer')
       },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
+      meta: {
+        title: '注册',
+        need_log: false
       }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-]
+    },
+    {
+      path: '/',
+      components: {
+        head: () => import('@/views/head/head'),
+        content: () => import('@/views/home/home'),
+        footer: () => import('@/views/footer/footer'),
+        need_log: false
+      },
+      children: [
+        {
+          path: 'list/:id',
+          name: 'list',
+          component: () => import('@/views/list/list'),
+          meta: {
+            title: '列表',
+            need_log: false
+          }
+        },
+        {
+          path: 'search/:keyword',
+          name: 'search',
+          component: () => import('@/views/list/list'),
+          meta: {
+            title: '搜索',
+            need_log: false
+          }
+        },
+        {
+          path: '/',
+          name: 'index',
+          component: () => import('@/views/index/index'),
+          meta: {
+            title: '首页',
+            need_log: false
+          }
+        },
+        {
+          path: 'productDetail/:productId',
+          name: 'productDetail',
+          component: () => import('@/views/productDetail/productDetail'),
+          meta: {
+            title: '商品详情',
+            need_log: false
+          }
+        },
+        {
+          path: 'member',
+          name: 'member',
+          component: () => import('@/views/member/member'),
+          children: [
+            {
+              path: 'message',
+              name: 'message',
+              component: () => import('@/views/member/message'),
+              meta: {
+                title: '我的留言',
+                need_log: true
+              }
+            },
+            {
+              path: 'receive',
+              name: 'receive',
+              component: () => import('@/views/member/receive'),
+              meta: {
+                title: '收件人信息',
+                need_log: true
+              }
+            },
+            {
+              path: 'order',
+              name: 'order',
+              component: () => import('@/views/member/order'),
+              meta: {
+                title: '我的订单',
+                need_log: true
+              }
+            },
+            {
+              path: 'orderDetail/:orderId',
+              name: 'orderDetail',
+              component: () => import('@/views/member/orderDetail'),
+              meta: {
+                title: '我的订单',
+                need_log: true
+              }
+            },
+            {
+              path: 'collection',
+              name: 'collection',
+              component: () => import('@/views/member/collection'),
+              meta: {
+                title: '我的收藏',
+                need_log: true
+              }
+            },
+            {
+              path: 'userinfo',
+              name: 'userinfo',
+              component: () => import('@/views/member/userinfo'),
+              meta: {
+                title: '用户信息',
+                need_log: true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: 'shoppingcart',
+      components: {
+        head: () => import('@/views/head/shophead'),
+        content: () => import('@/views/home/home'),
+        footer: () => import('@/views/footer/footer')
+      },
+      children: [
+        {
+          path: 'cart',
+          name: 'cart',
+          component: () => import('@/views/cart/cart'),
+          meta: {
+            title: '购物车',
+            need_log: true
+          }
+        }
+      ]
+    },
+    {
+      path: '/404',
+      component: () => import('@/views/404'),
+      hidden: true
+    },
+    { path: '*', redirect: '/404', hidden: true }
+  ]
+}]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+  // 选中的导航class属性
+  linkActiveClass: 'active',
+  routes: shopRoutes
 })
 
 const router = createRouter()

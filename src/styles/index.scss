@@ -6,6 +6,7 @@
 
 body {
   height: 100%;
+  min-width: 1055px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -63,3 +64,9 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+html, body, #app {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
